@@ -1,7 +1,5 @@
 print("=== SIMPLE CALCULATOR ===")
 
-
-
 num1  = float(input("Enter First number: ")) # float() handler decimals
 num2 = float(input("Enter second number: "))
 num1  = int(input("Enter First number: ")) # Note the differnce this works without float
