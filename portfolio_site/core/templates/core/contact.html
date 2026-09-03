@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+{% block title %}Contact — {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<div class="contact-wrap">
+  <p class="article-head__eyebrow" style="margin-bottom: 0.5rem;">Get in touch</p>
+  <h1>Say hello</h1>
+  <p class="contact-wrap__dek">
+    Whether it's a project, a job, or just a note about something you read here — I read everything that comes through.
+  </p>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-field">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <ul class="form-errors">
+            {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit">Send message</button>
+  </form>
+</div>
+{% endblock %}

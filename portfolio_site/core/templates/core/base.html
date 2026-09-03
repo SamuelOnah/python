@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ profile.full_name }}{% endblock %} — Notes &amp; Work</title>
+  <meta name="description" content="{% block meta_description %}The personal site of {{ profile.full_name }} — software engineering, design, and ventures.{% endblock %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="masthead">
+    <div class="masthead__row">
+      <a class="masthead__mark" href="{% url 'core:home' %}">{{ profile.full_name }}</a>
+      <p class="masthead__issue">Vol.&nbsp;I &middot; Est.&nbsp;2026</p>
+      <nav class="masthead__nav" aria-label="Primary">
+        <a href="{% url 'core:project_index' %}">Work</a>
+        <a href="{% url 'core:post_index' %}">Journal</a>
+        <a href="{% url 'core:about' %}">About</a>
+        <a href="{% url 'core:contact' %}" class="masthead__cta">Contact</a>
+      </nav>
+    </div>
+    <div class="masthead__rule"></div>
+  </header>
+
+  {% if messages %}
+    <div class="notice-stack">
+      {% for message in messages %}
+        <p class="notice notice--{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__rule"></div>
+    <div class="site-footer__row">
+      <p>&copy; {% now "Y" %} {{ profile.full_name }}. Built with Django, by hand.</p>
+      <div class="site-footer__links">
+        {% if profile.email %}<a href="mailto:{{ profile.email }}">{{ profile.email }}</a>{% endif %}
+        {% if profile.github_url %}<a href="{{ profile.github_url }}" target="_blank" rel="noopener">GitHub</a>{% endif %}
+        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

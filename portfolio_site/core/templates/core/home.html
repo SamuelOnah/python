@@ -1,0 +1,74 @@
+{% extends "core/base.html" %}
+{% load core_extras %}
+
+{% block content %}
+<section class="hero {% if profile.hero_image %}hero--with-image{% endif %}">
+  {% if profile.hero_image %}
+    <div class="hero__bg" style="background-image: url('{{ profile.hero_image.url }}');"></div>
+  {% endif %}
+  <div class="hero__content">
+    <p class="hero__eyebrow">{{ profile.tagline }}</p>
+    <h1>{{ profile.hero_heading|default:profile.full_name }}</h1>
+    <p class="hero__dek">{{ profile.hero_text }}</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="{% url 'core:project_index' %}">See the work</a>
+      <a class="btn" href="{% url 'core:contact' %}">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Selected work</h2>
+    <a class="section-link" href="{% url 'core:project_index' %}">All projects &rarr;</a>
+  </div>
+  <div class="card-grid">
+    {% for project in featured_projects %}
+      <a class="card" href="{{ project.get_absolute_url }}">
+        <div class="card__media" {% if not project.cover_image %}style="background-image: {{ project.title|accent_gradient }};"{% endif %}>
+          <span class="card__num">{{ forloop.counter|stringformat:"02d" }}</span>
+          {% if project.cover_image %}
+            <img src="{{ project.cover_image.url }}" alt="{{ project.cover_alt|default:project.title }}" loading="lazy">
+          {% else %}
+            <span class="card__placeholder">{{ project.title|initials }}</span>
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <p class="card__meta">{{ project.year }}{% if project.role %} &middot; {{ project.role }}{% endif %}</p>
+          <h3 class="card__title">{{ project.title }}</h3>
+          <p class="card__summary">{{ project.summary }}</p>
+        </div>
+      </a>
+    {% empty %}
+      <div class="empty-state">No projects yet — add some from the Django admin at /admin/.</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>From the journal</h2>
+    <a class="section-link" href="{% url 'core:post_index' %}">All entries &rarr;</a>
+  </div>
+  <div class="card-grid">
+    {% for post in latest_posts %}
+      <a class="card" href="{{ post.get_absolute_url }}">
+        <div class="card__media" {% if not post.cover_image %}style="background-image: {{ post.title|accent_gradient }};"{% endif %}>
+          {% if post.cover_image %}
+            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy">
+          {% else %}
+            <span class="card__placeholder">{{ post.title|initials }}</span>
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <p class="card__meta">{{ post.published_at|date:"M Y" }} &middot; {{ post.reading_minutes }} min read</p>
+          <h3 class="card__title">{{ post.title }}</h3>
+          <p class="card__summary">{{ post.dek }}</p>
+        </div>
+      </a>
+    {% empty %}
+      <div class="empty-state">No entries yet — add one from the Django admin at /admin/.</div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

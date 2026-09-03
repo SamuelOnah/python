@@ -1,0 +1,62 @@
+{% extends "core/base.html" %}
+{% load core_extras %}
+{% block title %}{{ project.title }} — {{ profile.full_name }}{% endblock %}
+{% block meta_description %}{{ project.summary }}{% endblock %}
+
+{% block content %}
+<section class="article-head">
+  <p class="article-head__eyebrow">
+    <span>{{ project.get_status_display }}</span>
+    {% if project.year %}<span>&middot; {{ project.year }}</span>{% endif %}
+    {% if project.role %}<span>&middot; {{ project.role }}</span>{% endif %}
+  </p>
+  <h1>{{ project.title }}</h1>
+  <p class="article-head__dek">{{ project.summary }}</p>
+</section>
+
+<div class="article-cover">
+  <div class="article-cover__frame" {% if not project.cover_image %}style="background-image: {{ project.title|accent_gradient }};"{% endif %}>
+    {% if project.cover_image %}
+      <img src="{{ project.cover_image.url }}" alt="{{ project.cover_alt|default:project.title }}">
+    {% else %}
+      <span class="article-cover__placeholder">{{ project.title|initials }}</span>
+    {% endif %}
+  </div>
+</div>
+
+<article class="article-body">
+  {% for paragraph in project.body_paragraphs %}
+    <p>{{ paragraph }}</p>
+  {% endfor %}
+</article>
+
+{% if project.link_url or project.repo_url %}
+<div class="article-links">
+  {% if project.link_url %}<a class="btn btn--primary" href="{{ project.link_url }}" target="_blank" rel="noopener">{{ project.link_label }}</a>{% endif %}
+  {% if project.repo_url %}<a class="btn" href="{{ project.repo_url }}" target="_blank" rel="noopener">View source</a>{% endif %}
+</div>
+{% endif %}
+
+{% if others %}
+<div class="more-strip">
+  <h2>More work</h2>
+  <div class="more-strip__grid">
+    {% for other in others %}
+      <a class="card" href="{{ other.get_absolute_url }}">
+        <div class="card__media" {% if not other.cover_image %}style="background-image: {{ other.title|accent_gradient }};"{% endif %}>
+          {% if other.cover_image %}
+            <img src="{{ other.cover_image.url }}" alt="{{ other.title }}" loading="lazy">
+          {% else %}
+            <span class="card__placeholder">{{ other.title|initials }}</span>
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">{{ other.title }}</h3>
+          <p class="card__summary">{{ other.summary }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

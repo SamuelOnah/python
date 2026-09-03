@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% load core_extras %}
+{% block title %}About — {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<div class="about-grid">
+  <div>
+    <div class="about-portrait" {% if not profile.portrait %}style="background-image: {{ profile.full_name|accent_gradient }};"{% endif %}>
+      {% if profile.portrait %}
+        <img src="{{ profile.portrait.url }}" alt="{{ profile.full_name }}">
+      {% else %}
+        <span class="about-portrait__placeholder">{{ profile.full_name|initials }}</span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="about-copy">
+    <p class="article-head__eyebrow" style="margin-bottom: 0.5rem;">About</p>
+    <h1 style="font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 1.5rem;">Hi, I'm {{ profile.full_name }}.</h1>
+    {% for paragraph in profile.bio_paragraphs %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
+
+    <dl class="about-facts">
+      {% if profile.location %}<dt>Based in</dt><dd>{{ profile.location }}</dd>{% endif %}
+      <dt>Focus</dt><dd>{{ profile.tagline }}</dd>
+      {% if profile.availability %}<dt>Available for</dt><dd>{{ profile.availability }}</dd>{% endif %}
+    </dl>
+  </div>
+</div>
+{% endblock %}

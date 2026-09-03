@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% load core_extras %}
+{% block title %}Work — {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<section class="article-head">
+  <p class="article-head__eyebrow">Index</p>
+  <h1>Work</h1>
+  <p class="article-head__dek">A running record of things I've built — shipped products, side experiments, and a few that never left the workshop.</p>
+</section>
+
+<section class="section">
+  <div class="card-grid">
+    {% for project in projects %}
+      <a class="card" href="{{ project.get_absolute_url }}">
+        <div class="card__media" {% if not project.cover_image %}style="background-image: {{ project.title|accent_gradient }};"{% endif %}>
+          <span class="card__num">{{ forloop.counter|stringformat:"02d" }}</span>
+          {% if project.cover_image %}
+            <img src="{{ project.cover_image.url }}" alt="{{ project.cover_alt|default:project.title }}" loading="lazy">
+          {% else %}
+            <span class="card__placeholder">{{ project.title|initials }}</span>
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <p class="card__meta">{{ project.year }}{% if project.role %} &middot; {{ project.role }}{% endif %}</p>
+          <h3 class="card__title">{{ project.title }}</h3>
+          <p class="card__summary">{{ project.summary }}</p>
+          {% if project.tags.all %}
+            <div class="card__tags">
+              {% for tag in project.tags.all %}<span class="tag tag--{% cycle 'coral' 'teal' 'gold' 'plum' %}">{{ tag.name }}</span>{% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </a>
+    {% empty %}
+      <div class="empty-state">Nothing here yet — add projects from the Django admin at /admin/.</div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
