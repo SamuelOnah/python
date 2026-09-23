@@ -4,8 +4,7 @@ name = input("Whats your name? ")
 age = input("How old are you? ")
 
 
-print("Hello ", name + "!", "You are", age, "years old.")
-# convert age to number and calculate future age 
+print("Hello ", name + "!", "You are", age, "years old.") 
 age_number = int(age)
 future_age = age_number + 10
 print("In 10 year, you'll be", future_age, "years old")
