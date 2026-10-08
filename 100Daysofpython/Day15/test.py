@@ -41,5 +41,23 @@ def list_resources():
             f"Available: {resource['available']} "
 
         )
-
 list_resources()
+
+
+def find_resource(resource_id):
+    for resource in resources:
+        if resource["id"] == resource_id:
+            return resource
+    return None
+
+print(find_resource("R001"))
+print(find_resource("R999"))
+
+
+def find_fellow(fellow_id):
+    return fellows.get(fellow_id)
+
+
+print(find_fellow("F001"))
+print(find_fellow("F999"))
+
