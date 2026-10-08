@@ -84,6 +84,6 @@ def add_resource():
         "available": total
     }
 
-    resources.append(resource)
+    resources.append( resource)
 
-    print("Resource added successfully.")
+print("Resource added successfully.")
