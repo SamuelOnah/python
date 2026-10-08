@@ -19,7 +19,15 @@ resources = [
         "category": "Accessories",
         "total": 3,
         "available": 3
-    }
+    },
+    {
+    "id": "R004",
+    "name": "Projector",
+    "category": "Electronics",
+    "total": 4,
+    "available": 4
+}
+    
 ]
 
 fellows = {
@@ -57,7 +65,25 @@ print(find_resource("R999"))
 def find_fellow(fellow_id):
     return fellows.get(fellow_id)
 
+def add_resource():
+    resource_id = input("Enter resource ID: ").strip()
 
-print(find_fellow("F001"))
-print(find_fellow("F999"))
+    if find_resource(resource_id):
+        print("Error: Resource ID already exists.")
+        return
 
+    name = input("Enter resource name: ").strip()
+    category = input("Enter category: ").strip()
+    total = int(input("Enter total units: "))
+
+    resource = {
+        "id": resource_id,
+        "name": name,
+        "category": category,
+        "total": total,
+        "available": total
+    }
+
+    resources.append(resource)
+
+    print("Resource added successfully.")
