@@ -1,5 +1,6 @@
-quantity = 5
+total_stock = 5
 borrowed = 2
+available_stock = total_stock -borrowed
 
-if quantity - borrowed:
-    print(f"Available Keyboards: {quantity - borrowed}")
+if total_stock != borrowed:
+    print("Zero are available ")
