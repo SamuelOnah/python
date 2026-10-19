@@ -1,0 +1,6 @@
+quantity = 5
+borrowed = 2
+
+if quantity - borrowed:
+    print(quantity)
+print(borrowed)
